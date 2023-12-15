@@ -12,7 +12,7 @@ def get_bet(balance):
 def print_hand(name, hand, hide_first):
     """display hand"""
 
-    display = name + ": "
+    display = "  " + name + ": "
     is_first = True
     for card in hand:
         if is_first and hide_first:
@@ -66,12 +66,11 @@ def play_hand(bet):
         if game.hand_total(dealer_hand) > game.hand_total(player_hand):
             print("Dealer Wins!!")
             return -bet
-        elif game.hand_total(dealer_hand) < game.hand_total(player_hand):
+        if game.hand_total(dealer_hand) < game.hand_total(player_hand):
             print("Player Wins!!")
             return bet
-        else:
-            print("Draw!!")
-            return 0
+        print("Draw!!")
+        return 0
 
 def main():
     """main method"""
@@ -81,9 +80,15 @@ def main():
     play = True
     while play:
         bet = get_bet(balance)
-        if bet == 0:
-            break
-        balance += play_hand(bet)
+        if bet > 0:
+            balance += play_hand(bet)
+        else:
+            play = False
+
+        if balance <= 0:
+            print("You are out of money")
+            play = False
+
 
     print("Bye")
 
